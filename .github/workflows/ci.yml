@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      # Поднимаем PostgreSQL прямо в GitHub Actions как сервис
       postgres_db:
         image: postgres:16-alpine
         env:
@@ -23,7 +22,6 @@ jobs:
           POSTGRES_DB: wms_test_db
         ports:
           - 5432:5432
-        # Ждем, пока Postgres будет готов принимать соединения
         options: >-
           --health-cmd "pg_isready -U postgres"
           --health-interval 10s
@@ -55,9 +53,7 @@ jobs:
         pytest -v -n auto --alluredir=allure-results
       continue-on-error: true
 
-
     - name: Get Allure history
-      finalizes: test-and-report
       uses: actions/checkout@v4
       if: always()
       with:
