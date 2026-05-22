@@ -1,0 +1,7 @@
+pytest==8.2.2
+pytest-xdist==3.6.1
+psycopg[binary]==3.1.19
+Faker==25.2.0
+python-dotenv==1.0.1
+psycopg-pool==3.2.2
+allure-pytest==2.13.5
