@@ -67,16 +67,3 @@ def db_conn(db_pool) -> Connection:
 def data_gen() -> WMSDataGenerator:
     """Предоставляет доступ к генератору фейковых данных."""
     return WMSDataGenerator()
-
-
-def pytest_collection_modifyitems(config, items):
-    """Хук для интеграции Allure и pytest-xdist.
-    Принудительно прописывает имя воркера в системные метки Allure до старта тестов."""
-    worker_id = getattr(config, "workerinput", {}).get("workerid")
-    if worker_id:
-        from allure_commons.types import LabelType
-
-        for item in items:
-            # Безопасно внедряем имя воркера (gw0, gw1...) как имя потока в метаданные теста
-            item.allure_meta = getattr(item, "allure_meta", None)
-            item.add_marker(pytest.mark.allure_label(worker_id, label_type=LabelType.THREAD))
