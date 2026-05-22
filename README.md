@@ -72,50 +72,66 @@
 ```mermaid
 erDiagram
     COURIERS {
-        int id
-        string type
-        int max_weight
+        int id PK
+        string name
+        string transport_type "foot | bike | car"
+        numeric max_weight_capacity "Foot limit <= 15kg"
+        string geo_zone
+        boolean is_active
+    }
+
+    STORAGE_LOCATIONS {
+        int id PK
+        int parent_id FK
+        string name
+        string location_type "warehouse | zone | rack | cell"
+        numeric max_volume_units "Only for cell"
+        numeric current_volume_units
     }
 
     ORDERS {
-        int id
-        int weight
-        int courier_id
+        int id PK
+        numeric weight
+        numeric volume
+        string geo_zone
+        string status
+        int cell_id FK
+        int courier_id FK
     }
 
-    STORAGE_CELLS {
-        int id
-        int max_volume
-    }
+    STORAGE_LOCATIONS ||--o{ STORAGE_LOCATIONS : "иерархия"
+    STORAGE_LOCATIONS ||--o{ ORDERS : "хранение"
+    COURIERS ||--o{ ORDERS : "доставка"
 ```
 ---
 ## 🗂️ Структура проекта
 
 ```text
-wms_test_framework_SQL/
-│
-├── .github/workflows/          # Конфигурация CI/CD пайплайна (GitHub Actions)
-│   └── ci.yml
-│
-├── db/                         # Логика и миграции базы данных
-│   ├── schema.sql              # Схема таблиц, типы данных и CHECK-ограничения
-│   ├── triggers.sql            # PL/pgSQL функции и триггеры (бизнес-валидация)
-│   └── queries.sql             # Рекурсивный WITH RECURSIVE запрос
-│
-├── tests/                      # Набор автоматизированных тестов
-│   ├── conftest.py             # Фикстуры инициализации пула, изоляции БД и воркеров xdist
-│   ├── test_connection.py      # Проверка сетевого линка
-│   ├── test_schema.py          # Проверка накатывания таблиц
-│   ├── test_constraints.py     # Тесты ограничений веса и триггера курьеров
-│   ├── test_overflow.py        # Тест на переполнение ячеек
-│   └── test_hierarchy.py       # Тест чтения и сборки иерархии склада
-│
-├── utils/                      # Фабрики тестовых данных
-│   └── data_generator.py       # WMSDataGenerator на базе Faker
-│
-├── pyproject.toml              # Конфигурация путей импорта pytest
-└── requirements.txt            # Зависимости проекта
+    wms_test_framework_SQL/
+    │
+    ├── .github/workflows/          # Конфигурация CI/CD пайплайна (GitHub Actions)
+    │   └── ci.yml
+    │
+    ├── db/                         # Логика и миграции базы данных
+    │   ├── schema.sql              # Схема таблиц, типы данных и CHECK-ограничения
+    │   ├── triggers.sql            # PL/pgSQL функции и триггеры (бизнес-валидация)
+    │   └── queries.sql             # Рекурсивный WITH RECURSIVE запрос с плейсхолдерами %(cell_id)s
+    │
+    ├── tests/                      # Набор автоматизированных тестов
+    │   ├── conftest.py             # Фикстуры инициализации пула, изоляции БД и воркеров xdist
+    │   ├── test_connection.py      # Проверка сетевого линка
+    │   ├── test_schema.py          # Проверка накатывания таблиц
+    │   ├── test_constraints.py     # Тесты ограничений веса и триггера курьеров
+    │   ├── test_overflow.py        # Тест на переполнение ячеек
+    │   └── test_hierarchy.py       # Тест чтения и сборки иерархии склада
+    │
+    ├── utils/                      # Фабрики тестовых данных
+    │   └── data_generator.py       # WMSDataGenerator на базе Faker
+    │
+    ├── pytest.ini                  # Главный файл конфигурации pytest параметров запуска
+    └── requirements.txt            # Зависимости проекта
 ```
+
 ---
 
 ## Как запустить проект локально
@@ -138,9 +154,9 @@ wms_test_framework_SQL/
    pip install -r requirements.txt
    ```
 
-4. **Запустите тесты параллельно (в 3 потока)**:
+4. **Запустите тестоввую сессию (в 3 параллельных потока)**:
    ```bash
-   pytest -v -n 3 --alluredir=allure-results --clean-alluredir
+   pytest -n 3 --alluredir=allure-results --clean-alluredir
    ```
 
 5. **Сгенерируйте и откройте локальный Allure-отчет**:
