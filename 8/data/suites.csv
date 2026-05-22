@@ -1,0 +1,8 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Проверяем, что CHECK-constraint не пропустит пешехода тяжелее 15 кг","6","test_invalid_foot_courier_constraint","tests","Fri May 22 02:01:47 UTC 2026","passed","Fri May 22 02:01:47 UTC 2026","","test_constraints","",""
+"Тест проверяет, что мы можем успешно выполнить запрос к PostgreSQL","2","test_postgres_version","tests","Fri May 22 02:01:47 UTC 2026","passed","Fri May 22 02:01:47 UTC 2026","","test_connection","",""
+"Тест проверяет, что база выдает ошибку при переполнении объема ячейки","10","test_cell_volume_overflow_trigger","tests","Fri May 22 02:01:47 UTC 2026","passed","Fri May 22 02:01:47 UTC 2026","","test_overflow","",""
+"Проверяем, что таблицы успешно создались в базе данных","10","test_tables_created","tests","Fri May 22 02:01:47 UTC 2026","passed","Fri May 22 02:01:47 UTC 2026","","test_schema","",""
+"Тест проверяет сборку полного пути локации ячейки с помощью WITH RECURSIVE из внешнего SQL файла","7","test_warehouse_hierarchy_recursive","tests","Fri May 22 02:01:47 UTC 2026","passed","Fri May 22 02:01:47 UTC 2026","","test_hierarchy","",""
+"Проверяем, что валидный пеший курьер успешно создается через Faker","4","test_insert_valid_foot_courier","tests","Fri May 22 02:01:47 UTC 2026","passed","Fri May 22 02:01:47 UTC 2026","","test_constraints","",""
+"Проверяем работу триггера: нельзя назначить тяжелый заказ на пешего курьера","15","test_courier_weight_limit_trigger","tests","Fri May 22 02:01:47 UTC 2026","passed","Fri May 22 02:01:47 UTC 2026","","test_constraints","",""
