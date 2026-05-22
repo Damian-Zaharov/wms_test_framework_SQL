@@ -6,6 +6,7 @@ from psycopg.errors import CheckViolation, RaiseException
 @allure.epic("WMS Валидация ограничений")
 @allure.feature("Лимиты грузоподъемности курьеров")
 @allure.story("Груз меньше лимита")
+@allure.severity(allure.severity_level.NORMAL)
 def test_insert_valid_foot_courier(db_conn, data_gen):
     """Проверяем, что валидный пеший курьер успешно создается через Faker"""
     # Генерируем заведомо валидного пешехода (до 15 кг)
@@ -25,6 +26,7 @@ def test_insert_valid_foot_courier(db_conn, data_gen):
 @allure.epic("WMS Валидация ограничений")
 @allure.feature("Лимиты грузоподъемности курьеров")
 @allure.story("Груз больше лимита")
+@allure.severity(allure.severity_level.CRITICAL)
 def test_invalid_foot_courier_constraint(db_conn, data_gen):
     """Проверяем, что CHECK-constraint не пропустит пешехода тяжелее 15 кг"""
     courier_data = data_gen.generate_courier(transport_type="foot")
@@ -45,6 +47,7 @@ def test_invalid_foot_courier_constraint(db_conn, data_gen):
 @allure.epic("WMS Валидация ограничений")
 @allure.feature("Лимиты грузоподъемности курьеров")
 @allure.story("Запрет назначения тяжелых заказов")
+@allure.severity(allure.severity_level.CRITICAL)
 def test_courier_weight_limit_trigger(db_conn, data_gen):
     """Проверяем работу триггера: нельзя назначить тяжелый заказ на пешего курьера"""
     with db_conn.cursor() as cur:

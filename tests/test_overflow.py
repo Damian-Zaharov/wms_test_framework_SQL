@@ -1,7 +1,12 @@
 import pytest
+import allure
 from psycopg.errors import RaiseException
 
 
+@allure.epic("WMS Валидация ограничений")
+@allure.feature("Контроль ресурсов склада")
+@allure.story("Переполнение объема ячейки хранения")
+@allure.severity(allure.severity_level.CRITICAL)
 def test_cell_volume_overflow_trigger(db_conn, data_gen):
     """Тест проверяет, что база выдает ошибку при переполнении объема ячейки"""
     with db_conn.cursor() as cur:

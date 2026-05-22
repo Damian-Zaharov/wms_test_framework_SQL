@@ -1,3 +1,9 @@
+import allure
+
+@allure.epic("Инфраструктура")
+@allure.feature("Схема данных (DDL)")
+@allure.story("Инициализация структуры таблиц")
+@allure.severity(allure.severity_level.BLOCKER)
 def test_tables_created(db_conn):
     """Проверяем, что таблицы успешно создались в базе данных"""
     with db_conn.cursor() as cur:
