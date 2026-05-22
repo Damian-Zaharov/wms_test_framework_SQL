@@ -1,6 +1,4 @@
-# 📦 WMS SQL Test Framework
-
-# 📦 WMS SQL Test Framework
+#  WMS SQL Test Framework
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-316192?logo=postgresql)
